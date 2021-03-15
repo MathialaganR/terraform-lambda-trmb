@@ -45,11 +45,21 @@ resource "aws_iam_role_policy" "s3_policy" {
               "s3:GetObject"
           ],
           "Resource": [
-              "arn:aws:s3:::webstack-env-*"
+              "arn:aws:s3:::rmathi-ec2-inventory*"
 
           ]
       }
   ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRole" {
+  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
+  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
