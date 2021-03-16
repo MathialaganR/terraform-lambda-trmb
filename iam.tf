@@ -63,3 +63,49 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
   role       = "${aws_iam_role.iam_for_lambda_tf.id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+resource "aws_iam_role_policy" "ec2_policy" {
+  name = "ec2_policy_lambda"
+  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*",
+        "ec2:Get*"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "sns_policy" {
+  name = "sns_policy_lambda"
+  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "sns:Publish"
+
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}

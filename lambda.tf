@@ -25,3 +25,24 @@ resource "aws_lambda_function" "inventory" {
 
 }
 
+
+resource "aws_cloudwatch_event_target" "lambda_event" {
+  arn  = "${aws_lambda_function.inventory.arn}"
+  rule = "${aws_cloudwatch_event_rule.lambda_rule.id}"
+
+}
+
+resource "aws_cloudwatch_event_rule" "lambda_rule" {
+  name                = "lambda_rule_inventory"
+  description         = "Inventory and Notification"
+  schedule_expression = "cron(0 */12 * * ? *)"
+
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch_to_call_check_lambda" {
+  statement_id = "AllowExecutionFromCloudWatch"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.inventory.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.lambda_rule.arn}"
+}
