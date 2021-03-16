@@ -14,7 +14,7 @@ CODES = ["Data", "Processing", "Web"]
 result = []
 
 def ec2_inventory():
-    response = ec2_cl.describe_instances(Filters=[{'Name' : 'instance-state-name','Values' : ['stopped']}]).get(
+    response = ec2_cl.describe_instances(Filters=[{'Name' : 'instance-state-name','Values' : ['running']}]).get(
         'Reservations', []
     )
     return response

@@ -30,6 +30,12 @@ resource "aws_cloudwatch_event_target" "lambda_event" {
   arn  = "${aws_lambda_function.inventory.arn}"
   rule = "${aws_cloudwatch_event_rule.lambda_rule.id}"
 
+  input = <<JSON
+{
+  "Test": "False"
+}
+JSON
+
 }
 
 resource "aws_cloudwatch_event_rule" "lambda_rule" {
@@ -45,4 +51,14 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_check_lambda" {
   function_name = "${aws_lambda_function.inventory.function_name}"
   principal = "events.amazonaws.com"
   source_arn = "${aws_cloudwatch_event_rule.lambda_rule.arn}"
+}
+
+data "aws_lambda_invocation" "lambda_inventory_invoke" {
+  function_name = "${aws_lambda_function.inventory.function_name}"
+
+  input = <<JSON
+{
+  "Test": "False"
+}
+JSON
 }
