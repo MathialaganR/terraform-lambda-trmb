@@ -66,7 +66,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
 
 resource "aws_iam_role_policy" "ec2_policy" {
   name = "ec2_policy_lambda"
-  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+  role = "${aws_iam_role.iam_for_lambda_tf.id}"
 
   policy = <<EOF
 {
@@ -89,7 +89,7 @@ EOF
 
 resource "aws_iam_role_policy" "sns_policy" {
   name = "sns_policy_lambda"
-  role       = "${aws_iam_role.iam_for_lambda_tf.id}"
+  role = "${aws_iam_role.iam_for_lambda_tf.id}"
 
   policy = <<EOF
 {
